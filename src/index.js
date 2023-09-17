@@ -2,10 +2,11 @@ import { initializeApp } from "firebase/app";
 import {
   getFirestore,
   collection,
-  getDocs,
+  //   getDocs,
   addDoc,
   deleteDoc,
   doc,
+  onSnapshot,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -27,18 +28,29 @@ const db = getFirestore();
 const collectionRef = collection(db, "books");
 
 //get collection data
-getDocs(collectionRef)
-  .then((snapshot) => {
-    //   console.log(snapshot.docs);
-    let books = [];
-    snapshot.docs.forEach((doc) => {
-      books.push({ id: doc.id, ...doc.data() });
-    });
-    console.log(books);
-  })
-  .catch((err) => {
-    console.log(err.message);
+// getDocs(collectionRef)
+//   .then((snapshot) => {
+//     //   console.log(snapshot.docs);
+//     let books = [];
+//     snapshot.docs.forEach((doc) => {
+//       books.push({ id: doc.id, ...doc.data() });
+//     });
+//     console.log(books);
+//   })
+//   .catch((err) => {
+//     console.log(err.message);
+//   });
+
+/* get REAL TIME COLLECTION DATA : getDocs changed into onSnapshot 
+- callback function runs each time there is a change in the collection-parameter */
+
+onSnapshot(collectionRef, (snapshot) => {
+  let books = [];
+  snapshot.docs.forEach((doc) => {
+    books.push({ id: doc.id, ...doc.data() });
   });
+  console.log(books);
+});
 
 /* for ADDITION OF BOOKS */
 const addBookForm = document.querySelector(".add");
