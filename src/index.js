@@ -7,6 +7,8 @@ import {
   deleteDoc,
   doc,
   onSnapshot,
+  query,
+  where,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -27,6 +29,9 @@ const db = getFirestore();
 //collection referenes
 const collectionRef = collection(db, "books");
 
+//query based filtered collection ref
+const q = query(collectionRef, where("author", "!=", "JK Rowling"));
+
 //get collection data
 // getDocs(collectionRef)
 //   .then((snapshot) => {
@@ -43,8 +48,7 @@ const collectionRef = collection(db, "books");
 
 /* get REAL TIME COLLECTION DATA : getDocs changed into onSnapshot 
 - callback function runs each time there is a change in the collection-parameter */
-
-onSnapshot(collectionRef, (snapshot) => {
+onSnapshot(q, (snapshot) => {
   let books = [];
   snapshot.docs.forEach((doc) => {
     books.push({ id: doc.id, ...doc.data() });
