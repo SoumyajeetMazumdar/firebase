@@ -6,7 +6,29 @@
     <title>Firebase 9</title>
   </head>
   <body>
-    <h1>Getting started with firebase</h1>
+    <h1>Getting Started with Firebase 9</h1>
+
+    <h2>Firebase Firestore</h2>
+
+    <form class="add">
+      <label for="title">Title:</label>
+      <input type="text" name="title" id="title" required />
+      <br />
+      <label for="author">Author:</label>
+      <input type="text" name="author" id="author" required />
+      <br />
+      <button>add a new book</button>
+    </form>
+
+    <br /><br /><br />
+    <form class="delete">
+      <label for="id">Document id:</label>
+      <input type="text" name="id" id="id" required />
+
+      <br />
+      <button>delete a book</button>
+    </form>
+
     <script src="bundle.js"></script>
   </body>
 </html>
