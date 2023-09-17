@@ -9,6 +9,8 @@ import {
   onSnapshot,
   query,
   where,
+  orderBy,
+  serverTimestamp,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -30,7 +32,7 @@ const db = getFirestore();
 const collectionRef = collection(db, "books");
 
 //query based filtered collection ref
-const q = query(collectionRef, where("author", "!=", "JK Rowling"));
+const q = query(collectionRef, orderBy("createdAt"));
 
 //get collection data
 // getDocs(collectionRef)
@@ -53,6 +55,8 @@ onSnapshot(q, (snapshot) => {
   snapshot.docs.forEach((doc) => {
     books.push({ id: doc.id, ...doc.data() });
   });
+  // books.map((el, i) => console.log(i, el.title, el.author));
+
   console.log(books);
 });
 
@@ -64,6 +68,7 @@ addBookForm.addEventListener("submit", (e) => {
   addDoc(collectionRef, {
     title: addBookForm.title.value,
     author: addBookForm.author.value,
+    createdAt: serverTimestamp(),
   }).then(() => {
     console.log("added");
     addBookForm.reset();
